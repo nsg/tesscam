@@ -61,6 +61,7 @@ helpmsg() {
 
 if [[ -z $1 ]]; then
 	echo "Scanning /mnt and /media for TeslaCam directories"
+	echo "You may need to run \"snap connect tesscam:removable-media\" grant this snap access to removable media."
 	helpmsg
 elif [ x$1 == xsaved ]; then
 	if [[ -z $2 ]]; then
