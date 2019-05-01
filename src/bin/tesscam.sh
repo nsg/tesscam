@@ -65,7 +65,7 @@ if [[ -z $1 ]]; then
 	helpmsg
 elif [ x$1 == xsaved ]; then
 	if [[ -z $2 ]]; then
-		echo "Select a clip to process like \"tesscam saved 1\""
+		echo "Select a clip to process like \"tesscam saved 1\", the result will be written to the same folder."
 		list_n_saved_clips
 	else
 		CLIP="$(list_n_saved_clips $2)"
