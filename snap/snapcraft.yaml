@@ -1,0 +1,23 @@
+name: tesscam
+base: core18
+version: '0.1'
+summary: Process TeslaCam videos to nicer format
+description: |
+  This will process TeslaCam fotage to a nicer format. I will merge
+  the files togeter to a single long video.
+
+grade: stable
+confinement: strict
+
+apps:
+  tesscam:
+    command: tesscam.sh
+    plugs:
+      - removable-media
+
+parts:
+  tesscam:
+    plugin: dump
+    source: src
+    stage-packages:
+      - ffmpeg
