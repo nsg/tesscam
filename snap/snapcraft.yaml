@@ -10,10 +10,26 @@ grade: stable
 confinement: strict
 
 apps:
-  tesscam:
-    command: tesscam.sh
+  list:
+    command: bin/list.sh
+    adapter: full
     plugs:
       - removable-media
+
+  detect:
+    command: bin/detect.sh
+    adapter: full
+    plugs:
+      - removable-media
+
+  encode:
+    command: bin/encode.sh
+    adapter: full
+    plugs:
+      - removable-media
+    environment:
+      LD_LIBRARY_PATH: "$LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio"
+
 
 parts:
   tesscam:
@@ -21,3 +37,5 @@ parts:
     source: src
     stage-packages:
       - ffmpeg
+      - libpulse0
+      - libslang2

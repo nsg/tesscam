@@ -1,7 +1,7 @@
 #!/bin/bash
 
 merge() {
-	ffmpeg \
+	ffmpeg -an \
 		-i "$1" \
 		-i "$2" \
 		-i "$3" \
@@ -50,7 +50,7 @@ process_clips() {
 	local name="$2"
 	local output="$3"
 
-	ffmpeg -y -f concat -safe 0 \
+	ffmpeg -y -f concat -safe 0 -an \
 		-i <(find "$path" -name "$name" -size +10M -printf "file '%p'\n") \
 		-c copy "$output"
 }
