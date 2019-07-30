@@ -31,7 +31,7 @@ process_clips() {
         -c copy "$output"
 }
 
-while read dir_to_encode; do
+for dir_to_encode in $(cat -); do
     timedate="${dir_to_encode##*/}"
 
     # I do not like teslas time format
