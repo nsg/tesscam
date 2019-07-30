@@ -4,7 +4,13 @@
 
 detect_media
 
-OUT_DIR="${SNAP_USER_DATA:-$PWD}"
+OUT_DIR="${SNAP_USER_COMMON:-$PWD}"
+
+banner() {
+    echo "##################################################"
+    echo "$@"
+    echo "##################################################"
+}
 
 merge() {
 	ffmpeg -an \
@@ -33,17 +39,22 @@ while read dir_to_encode; do
     hour="${timedate##*_}"
     timedate="${timedate%%_*}_${hour//-/:}"
 
-    expanded_path="$(echo $dir_to_encode)"
-    process_clips "$expanded_path" '*front*' $OUT_DIR/front.tmp.mp4
-    process_clips "$expanded_path" '*left_repeater*' $OUT_DIR/left_repeater.tmp.mp4
-    process_clips "$expanded_path" '*right_repeater*' $OUT_DIR/right_repeater.tmp.mp4
+    if [ ! -f "$OUT_DIR/$timedate.mp4" ]; then
+        expanded_path="$(echo $dir_to_encode)"
 
-    merge \
-        $OUT_DIR/left_repeater.tmp.mp4 \
-        $OUT_DIR/front.tmp.mp4 \
-        $OUT_DIR/right_repeater.tmp.mp4 \
-        "$OUT_DIR/$timedate.mp4"
+        banner "Process clips for $timedate"
+        process_clips "$expanded_path" '*front*' $OUT_DIR/front.tmp.mp4
+        process_clips "$expanded_path" '*left_repeater*' $OUT_DIR/left_repeater.tmp.mp4
+        process_clips "$expanded_path" '*right_repeater*' $OUT_DIR/right_repeater.tmp.mp4
 
-    rm $OUT_DIR/*.tmp.mp4
+        banner "Merge clips for $timedate"
+        merge \
+            $OUT_DIR/left_repeater.tmp.mp4 \
+            $OUT_DIR/front.tmp.mp4 \
+            $OUT_DIR/right_repeater.tmp.mp4 \
+            "$OUT_DIR/$timedate.mp4"
+
+        rm $OUT_DIR/*.tmp.mp4
+    fi
 done
 
