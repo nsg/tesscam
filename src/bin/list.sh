@@ -17,7 +17,7 @@ list_saved_clips() {
 	OIFS="$IFS"
 	IFS=$'\n'
 	for d in $(find_teslacam_dirs); do
-		find "$d/SavedClips" -maxdepth 1 -type d -name 20*
+		find "$d/SavedClips" -maxdepth 1 -type d -name '20*'
 	done
 	IFS="$OIFS"
 }
